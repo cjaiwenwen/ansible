@@ -1,6 +1,6 @@
 ---
 - name: main entrypoint
-  hosts: all
+  hosts: "localhost"
   gather_facts: false
   
   roles:
