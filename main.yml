@@ -3,5 +3,5 @@
   hosts: all
   gather_facts: false
   
-  include_roles:
+  roles:
     - {role: "{{ role }}"}
