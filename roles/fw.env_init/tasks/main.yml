@@ -3,7 +3,7 @@
 - name: git clone from repo
   git:
     repo: 'https://github.com/cjaiwenwen/environment.git'
-    dst: /tmp
+    dest: /tmp
 
 
 - name: load the variable
