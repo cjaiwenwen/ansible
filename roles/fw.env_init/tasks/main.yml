@@ -3,9 +3,8 @@
 - name: git clone from repo
   git:
     repo: 'https://github.com/cjaiwenwen/environment.git'
-    dest: /tmp
-
+    dest: "{{ playbook_dir }}"
 
 - name: load the variable
   include_vars:
-    file: /tmp/env.yaml
+    file: "{{ playbook_dir }}/env.yaml"
