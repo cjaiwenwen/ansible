@@ -1,10 +1,26 @@
 ---
+- name: create directory
+  file:
+    path: "{{ playbook_dir }}/tmp"
+    state: directory
+    mode: '0755'
+
 
 - name: git clone from repo
   git:
     repo: 'https://github.com/cjaiwenwen/environment.git'
-    dest: "{{ playbook_dir }}"
+    dest: "{{ playbook_dir }}/tmp"
+
+- name: Check that the somefile.conf exists
+  stat:
+    path: "{{ playbook_dir }}/tmp/env.yaml"
+  register: stat_result
+
+- name: Create the file, if it doesnt exist already
+  debug:
+    msg: "File exists..."
+  when: stat_result.stat.exists
 
 - name: load the variable
   include_vars:
-    file: "{{ playbook_dir }}/env.yaml"
+    file: "{{ playbook_dir }}/tmp/env.yaml"
