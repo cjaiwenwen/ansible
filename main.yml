@@ -1,0 +1,7 @@
+---
+- name: main entrypoint
+  hosts: all
+  gather_facts: false
+  
+  include_roles:
+    - {role: "{{ role }}"}
