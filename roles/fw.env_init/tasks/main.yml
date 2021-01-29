@@ -9,7 +9,7 @@
 - name: git clone from repo
   git:
     repo: 'https://github.com/cjaiwenwen/environment.git'
-    dest: "{{ playbook_dir }}/tmp"
+    dest: "{{ playbook_dir }}/tmp/"
 
 - name: Check that the somefile.conf exists
   stat:
