@@ -1,0 +1,15 @@
+---
+- name: Make sure env is allowed
+  fail:
+    msg: >-
+      Environment "{{ env }}" is not allowed.
+      Please choose a target environment in {{ _allowed_envs | join(', ') }}
+  when: not env in _allowed_envs
+  run_once: true
+
+
+- name: Validate the username
+  fail:
+    msg: >-
+      Username can not be empty
+  when: username|length ==0

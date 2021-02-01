@@ -1,10 +1,23 @@
 ---
+- name: pre-check
+  include: validation.yml
+
+- name: Ansible check directory exists example.
+  stat:
+    path: "{{ playbook_dir }}/tmp"
+  register: files_to_delete
+
+- name: Clean artifact path
+  file:
+    state: absent
+    path: "{{ playbook_dir }}/tmp"
+  when: files_to_delete.stat.isdir
+  
 - name: create directory
   file:
     path: "{{ playbook_dir }}/tmp"
     state: directory
     mode: '0755'
-
 
 - name: git clone from repo
   git:
@@ -13,7 +26,7 @@
 
 - name: Check that the somefile.conf exists
   stat:
-    path: "{{ playbook_dir }}/tmp/env.yaml"
+    path: "{{ playbook_dir }}/tmp/{{ env }}.yml"
   register: stat_result
 
 - name: Create the file, if it doesnt exist already
@@ -23,4 +36,39 @@
 
 - name: load the variable
   include_vars:
-    file: "{{ playbook_dir }}/tmp/env.yaml"
+    file: "{{ playbook_dir }}/tmp/{{ env }}.yml"
+
+- name: print the variable
+  debug:
+    msg: "{{ cams }}"
+
+- name: test tenary
+  debug:
+    msg: "{{ 'hand' in jun | ternary('yes', 'no')}}"
+  
+#- name: print foo
+#  debug:
+#    msg: "{{ _foo }}"
+
+- name: print facts
+  debug:
+    msg: "{{ tagsa }}"
+
+- name: authenticate with CAMS
+  uri:
+    url: "http://{{ cams.url }}:{{ cams.port }}{{ cams.auth }}"
+    method: POST
+    headers:
+      username: "{{ username }}"
+      password: "{{ password }}"
+    return_content: true
+  register: auth_cam
+
+- name: print auth_cam
+  debug:
+    msg: "{{ auth_cam }}"
+
+- name: set facts for username and password
+  set_fact:
+    _user: "{{ auth_cam.json.user }}"
+    _pass: "{{ auth_cam.json.pass}}"

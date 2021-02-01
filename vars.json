@@ -1,0 +1,8 @@
+{
+    "role": "fw.env_init",
+    "env": "qa",
+    "username": "jun",
+    "password": "password",
+    "jun": "handsome",
+    "cisco": "192.168.31.133"
+}
